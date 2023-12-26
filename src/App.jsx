@@ -8,12 +8,12 @@ import { Book } from "./components/Book"
 function App() {
   return (
     <>
-      <Nav></Nav>
+      <Nav />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/book" element={<Book />} />
       </Routes>
-      <Footer></Footer>
+      <Footer />
     </>
   );
 }
