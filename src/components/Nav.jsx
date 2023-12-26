@@ -1,5 +1,6 @@
 import { Logo } from "./Logo"
 import hamburger from "../assets/hamburger.svg"
+import { Link, Route, Routes } from "react-router-dom"
 
 export function Nav() {
   return (<header className="App-header">
@@ -9,10 +10,10 @@ export function Nav() {
       <img class="hamburger" src={hamburger} />
 
       <div className="links">
-        <a href="#">Home</a>
+        <Link to="/">Home</Link>
         <a href="#">About</a>
         <a href="#">Menu</a>
-        <a href="#">Reservations</a>
+        <Link to="/book">Reservations</Link>
         <a href="#">Order online</a>
         <a href="#">Login</a>
       </div>

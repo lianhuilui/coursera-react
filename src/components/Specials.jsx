@@ -6,7 +6,7 @@ export function Specials() {
   return (<section className="special-section">
     <div>
       <h2>See our specials!</h2>
-      <button>Online Menu</button>
+      <span className="button">Online Menu</span>
     </div>
     <div>
       <div>
