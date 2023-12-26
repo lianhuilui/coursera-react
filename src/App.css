@@ -1,38 +1,220 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;0,800;1,500&family=Major+Mono+Display&family=Markazi+Text:wght@400;500&display=swap');
+
+:root {
+  --primary-color: #495E57;
+  --primary-color-2: #F4CE14;
+
+  --secondary-color: #EE9972;
+  --secondary-color-2: #FBDABB;
+  --secondary-color-3: #EDEFEE;
+  --secondary-color-4: #333333;
+
+  --max-width: 1024px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+nav {
+  @apply justify-between;
+  .hamburger {
+    @apply md:hidden inline;
+  }
+  .links {
+    @apply gap-4;
+    @apply md:flex hidden;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.copy {
+  @apply text-center;
+}
+header > nav, section > div, footer > div {
+  margin: 0 auto;
+  max-width: var(--max-width);
+}
+
+.hero-section {
+  background-color: var(--primary-color);
+  display: relative;
+
+  .img-wrapper {
+    max-width: 350px;
+    background-image: url("/src/assets/restauranfood.jpg");
+    background-size: 100%;
+    aspect-ratio: 1;
+    border-radius: 2em;
+    margin: 0 0 0 auto;
+  }
+}
+
+.special-section img {
+  width: auto;
+}
+
+.special-section > div:first-child {
+  @apply md:flex items-center;
+
+  h2 {
+    @apply flex-grow;
+  }
+}
+
+.special-section > div:nth-child(2) {
+  @apply mt-4;
+  @apply grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4;
+
+
+  img {
+    width:100%;
+    border-radius: 1em 1em 0 0;
+    margin: 0 auto;
+    object-fit: cover;
+    aspect-ratio: 3/2; 
+  }
+
+  > div {
+    border: 1px solid var(--primary-color);
+    border-radius: 1em;
+    background-color: var(--secondary-color-3);
+    font-family: Karla;
+    font-size: 14pt;
+
+    @apply shadow-lg;
+
+    > div {
+      @apply pt-2 px-4 pb-4;
+    }
+  }
+
+}
+
+.hero-section > div {
+  @apply grid grid-cols-2;
+
+  color: var(--primary-color-2);
+
+  img {
+    border-radius: 1em;
+  }
+}
+
+.review-section{
+  text-align: center;
+  font-family: Karla;
+  background-color: var(--primary-color-2);
+  h2 {
+    @apply my-6;
+  }
+  h3 {
+    font-size: 18pt;
+    font-weight: bold;
+  }
+}
+
+.review-section .stars {
+  @apply my-2 text-xl;
+}
+.review-section > div {
+  @apply mt-4;
+
+  &:nth-child(2) {
+    @apply grid lg:grid-cols-2 sm:grid-cols-1 gap-4;
+
+    > div {
+      @apply p-4;
+      border-radius: 16px;
+      border: 1px solid var(--secondary-color-2)
+    }
+  }
+}
+
+.about-section {
+  p {
+    @apply my-4;
+    font-family: Karla;
+  }
+
+  > div > div:nth-child(2) {
+    @apply grid gap-6 md:grid-cols-2 sm:grid-cols-1;
+
+    img {
+      border-radius: 16px;
+      sm:w-full;
+    }
+  }
+}
+
+.review {
+  background-color: var(--secondary-color-3);
+}
+
+h1 {
+  color: var(--primary-color-2);
+  font-family: "Markazi Text";
+  font-weight: 500;
+  font-size: 64pt;
+  line-height: 0.9em;
+  @apply m-0 p-0;
+}
+
+button {
+  @apply p-4;
+  font-weight: bold;
+  background-color: var(--primary-color-2);
+  color: black;
+  border-radius: 16px;
+}
+
+h2 {
+  font-family: "Markazi Text";
+  font-weight: 500;
+  font-size: 64pt;
+  line-height: 0.8em;
+}
+
+.logo {
+}
+
+nav {
+  font-family: Karla;
+  font-weight: bold;
+}
+
+.subtitle {
+  line-height: 0.9em;
+  font-family: "Markazi Text";
+  font-size: 40pt;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.lead {
+  @apply my-4;
+  font-weight: bold;
+  color: white;
+  font-family: "Karla"
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+* {
+}
+
+header {
+  @apply w-full;
+
+  nav {
+    @apply w-full flex gap-4 items-center;
   }
-  to {
-    transform: rotate(360deg);
-  }
+}
+
+section {
+  @apply p-6;
+}
+
+header, footer {
+  @apply p-6;
+}
+
+footer {
+ @apply bg-gray-300
 }
