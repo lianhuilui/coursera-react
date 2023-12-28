@@ -1,17 +1,21 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Select } from "./Select"
+import { Submitting } from "./Submitting";
 
 export function BookingForm({availableTimes, updateAvailableTimes}) {
 
   let [formData, setFormData] = useState({
     name: "",
-    occasion: "",
+    occassion: "",
     date: '',
     time: '',
-    guests: 0
+    guests: ""
   })
 
-  function handleChange(e) {
+  let [loading, setLoading] = useState(false)
+
+  async function handleChange(e) {
     e.preventDefault();
 
     let { name, value } = e.target;
@@ -19,19 +23,30 @@ export function BookingForm({availableTimes, updateAvailableTimes}) {
     let data = { ...formData }
     data[name] = value
 
+    if (name === 'date') {
+      console.log('calling update')
+      let result = await window.fetchAPI(data.date)
+      console.log('setting times to ', result)
+      updateAvailableTimes({type:"update", times: result})
+    }
+
     setFormData(data)
   }
+
+  let navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    updateAvailableTimes({
-      type: 'make_booking',
-      booking: formData
-    })
+    if (window.submitAPI) {
+      setLoading(true);
+      window.submitAPI(formData).then(() => {
+        navigate('/successful-booking')
+      })
+    }
   }
 
-  return (<form onSubmit={handleSubmit} className="booking-form">
+  return (loading ? <Submitting /> : (<form onSubmit={handleSubmit} className="booking-form">
     <div>
       <label htmlFor="name">Name:</label>
       <input id="name" type="text" value={formData.name} name="name" onChange={handleChange} placeholder="Main Guest"/>
@@ -44,6 +59,8 @@ export function BookingForm({availableTimes, updateAvailableTimes}) {
       <input id="date" type="date" value={formData.date} name="date" onChange={handleChange} />
     </div>
 
+      {formData.date !== '' && availableTimes.length == 0 ? (<span style={{fontWeight: 'bold', textAlign: 'center'}}>We are sorry. No time slots available on this day.</span>) : ""}
+
     <div>
       <label htmlFor="time">
         Choose Time
@@ -51,16 +68,16 @@ export function BookingForm({availableTimes, updateAvailableTimes}) {
 
       <Select id="time" onChange={handleChange} name="time">
         <Select.Option value="">-- Time --</Select.Option>
-        {availableTimes?.map(({value}) => (<Select.Option key={value} value={value}>{value}</Select.Option>))}
+        {availableTimes && availableTimes.length > 0 && availableTimes.map((value) => (<Select.Option key={value} value={value}>{value}</Select.Option>))}
       </Select>
     </div>
 
     <div>
-      <label htmlFor="occasion">
-        Occasion:
+      <label htmlFor="occassion">
+        occassion:
       </label>
-      <Select id="occasion" onChange={handleChange} name="occasion">
-        <Select.Option value="">-- Occasion --</Select.Option>
+      <Select id="occassion" onChange={handleChange} name="occassion">
+        <Select.Option value="">-- Occassion --</Select.Option>
         <Select.Option value="birthday">Birthday</Select.Option>
         <Select.Option value="anniversary">Anniversary</Select.Option>
       </Select>
@@ -75,8 +92,9 @@ export function BookingForm({availableTimes, updateAvailableTimes}) {
 
     <div>
       <div></div>
-      <button aria-disabled={formData.guests < 1} disabled={formData.guests < 1} type="submit">Make Your Reservation</button>
+      <button disabled={formData.guests === "" || formData.name === "" || formData.date === '' || formData.occassion === ''} type="submit">Make Your Reservation</button>
     </div>
-  </form>)
+  </form>
+  ))
 }
 

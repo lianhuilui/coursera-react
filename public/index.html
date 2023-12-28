@@ -1,38 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <meta name="og:title" content="Little Lemon">
-    <meta name="og:description" content="Welcome to Little Lemon. We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.">
 
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <meta name="og:title" content="Little Lemon">
+  <meta name="og:description"
+    content="Welcome to Little Lemon. We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.">
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <!-- error 404 <script src="https://raw.githubusercontent.com/Meta-Front-End-Developer-PC/capstone/master/api.js"></script>-->
+  <script>
+    const availableTimesByDate = {
+      '0': ['10:00', '11:00', '12:00', '15:00', '16:00'],
+      '1': ['12:00', '14:00', '16:00'],
+      '2': ['13:00', '15:00', '16:00'],
+      '3': ['9:00', '10:00', '11:00'],
+      '4': ['15:00', '16:00'],
+      '5': ['13:00', '15:00', '16:00'],
+      '6': ['11:00', '15:00', '18:00', '19:00'],
+      '7': ['10:00', '20:00', '21:00'],
+      '8': ['12:00', '14:00', '16:00'],
+      '9': ['9:00', '10:00', '11:00'],
+    };
+
+    const bookedTimes = {}
+
+    const fetchAPI = (date) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+
+          let tokens = date.split('-')
+          let days = 0;
+          let index = 0;
+
+          if (tokens.length == 3) {
+            days += (parseInt(tokens[0]) - 2000) * 365
+            days += parseInt(tokens[1]) * 30
+            days += parseInt(tokens[2])
+
+            index = days % 10
+          }
+
+          if (availableTimesByDate[index]) {
+            resolve(availableTimesByDate[index]
+              .filter((value) => (date in bookedTimes ?
+                bookedTimes[date].indexOf(value) === -1 :
+                true)))
+
+          } else {
+
+            console.error('No available times for the selected date: ' + date);
+            resolve([])
+          }
+        }, 1000)
+      })
+    }
+
+    const submitAPI = (formData) => {
+      console.log("new booking on " + formData.date + " @ " + formData.time)
+
+      if (!(formData.date in bookedTimes)) {
+        console.log('first entry of the day')
+        bookedTimes[formData.date] = []
+      }
+
+      bookedTimes[formData.date].push(formData.time)
+
+      console.log(bookedTimes)
+
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (formData) {
+            resolve(true); // Simulate successful submission
+          } else {
+            reject(new Error('Form submission failed.'));
+          }
+        }, 1000); // Simulate API delay
+      });
+    };
+
+    // export {fetchAPI, submitAPI}
+    window.fetchAPI = fetchAPI;
+    window.submitAPI = submitAPI;
+  </script>
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>React App</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -42,5 +106,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>
