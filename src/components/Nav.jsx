@@ -18,12 +18,14 @@ export function Nav() {
 
   return (<header className="App-header">
     <nav ref={navRef} className={collapsed ? "" : "show"} >
-      <Logo></Logo>
+      <Link to="/">
+        <Logo></Logo>
+      </Link>
 
       <div>
 
         <button onClick={toggleCollapsed} className={`hamburger-btn`}>
-          <img className="hamburger" src={hamburger} alt="mainmenu"/>
+          <img className="hamburger" src={hamburger} alt="mainmenu" />
         </button>
 
         <div className="links">
@@ -37,15 +39,15 @@ export function Nav() {
       </div>
 
     </nav>
-      {!collapsed && <div className="mobile-nav">
-          <Link to="/" onClick={collapse}>Home</Link>
-          <a href="#" onClick={collapse}>About</a>
-          <a href="#" onClick={collapse}>Menu</a>
-          <Link to="/book" onClick={collapse}>Reservations</Link>
-          <a href="#" onClick={collapse}>Order online</a>
-          <a href="#" onClick={collapse}>Login</a>
-        </div>
-      }
+    {!collapsed && <div className="mobile-nav">
+      <Link to="/" onClick={collapse}>Home</Link>
+      <a href="#" onClick={collapse}>About</a>
+      <a href="#" onClick={collapse}>Menu</a>
+      <Link to="/book" onClick={collapse}>Reservations</Link>
+      <a href="#" onClick={collapse}>Order online</a>
+      <a href="#" onClick={collapse}>Login</a>
+    </div>
+    }
 
   </header>);
 }

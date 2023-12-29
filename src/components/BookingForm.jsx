@@ -48,7 +48,7 @@ export function BookingForm({availableTimes, updateAvailableTimes}) {
 
   return (loading ? <Submitting /> : (<form onSubmit={handleSubmit} className="booking-form">
     <div>
-      <label htmlFor="name">Name:</label>
+      <label htmlFor="name">Name</label>
       <input id="name" type="text" value={formData.name} name="name" onChange={handleChange} placeholder="Main Guest"/>
     </div>
 
@@ -74,7 +74,7 @@ export function BookingForm({availableTimes, updateAvailableTimes}) {
 
     <div>
       <label htmlFor="occassion">
-        occassion:
+        Occassion
       </label>
       <Select id="occassion" onChange={handleChange} name="occassion">
         <Select.Option value="">-- Occassion --</Select.Option>
@@ -84,7 +84,7 @@ export function BookingForm({availableTimes, updateAvailableTimes}) {
     </div>
 
     <div>
-      <label htmlFor="guests">How many guests?</label>
+      <label htmlFor="guests">Number of Guests</label>
       <input type="number" name="guests" id="guests" onChange={handleChange} min="1" max="10" placeholder="1"/>
     </div>
 
